@@ -18,6 +18,32 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2563eb">
     <title>iHobby - คลังกันพลาของฉัน</title>
+	<style>
+    /* ===== หน้าจอเริ่มต้น ===== */
+    #splashScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+    }
+    #splashScreen img {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+    }
+    /* ซ่อนเนื้อหาหลักตอนโหลด */
+    #mainContent {
+        opacity: 0;
+        transition: opacity 0.5s ease-in;
+    }
+	</style>
     <style>
         * {
             margin: 0;
@@ -324,7 +350,13 @@
     </style>
 </head>
 <body>
+	<!-- หน้าจอเริ่มต้น -->
+	<div id="splashScreen">
+		<img src="splash.jpg" alt="iHobby">
+	</div>
 
+	<!-- ครอบเนื้อหาทั้งหมดไว้ในนี้ -->
+	<div id="mainContent">
     <div class="header">
         <img src="images/ihobby-logo.png" alt="iHobby Logo" class="logo" id="appLogo">
         <h1>คลังกันพลาของฉัน<br>(เรียงตามวันที่ซื้อ ล่าสุดก่อน)</h1>
@@ -676,6 +708,7 @@
 
         renderCards();
     </script>
+</div> <!-- ปิด #mainContent -->
 </body>
 </html>
 
