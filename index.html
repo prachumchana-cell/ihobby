@@ -19,30 +19,26 @@
     <meta name="theme-color" content="#2563eb">
     <title>iHobby - คลังกันพลาของฉัน</title>
 	<style>
-    /* ===== หน้าจอเริ่มต้น ===== */
-    #splashScreen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #ffffff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        transition: opacity 0.5s ease-out;
-    }
-    #splashScreen img {
-        max-width: 90%;
-        max-height: 90%;
-        object-fit: contain;
-    }
-    /* ซ่อนเนื้อหาหลักตอนโหลด */
-    #mainContent {
-        opacity: 0;
-        transition: opacity 0.5s ease-in;
-    }
+/* ===== หน้าจอเริ่มต้น แก้ไขแล้ว ===== */
+#splashScreen {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+#splashScreen img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+}
+#mainContent {
+    display: none; /* ซ่อนแน่นอนจนกว่าจะครบกำหนด */
+}
 	</style>
     <style>
         * {
@@ -707,6 +703,17 @@
         }
 
         renderCards();
+// หน้าจอเริ่มต้น แก้ไขปัญหาค้าง
+document.addEventListener('DOMContentLoaded', () => {
+    const splash = document.getElementById('splashScreen');
+    const main = document.getElementById('mainContent');
+
+    // แสดง 1.5 วินาที แล้วซ่อนทันที ไม่รอเฟดซ้อนกัน
+    setTimeout(() => {
+        splash.style.display = 'none';
+        main.style.display = 'block';
+    }, 1500); // ปรับเป็น 1000 = 1 วินาที ถ้าอยากให้เร็วขึ้น
+});
     </script>
 </div> <!-- ปิด #mainContent -->
 </body>
