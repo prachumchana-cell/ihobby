@@ -1,15 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>iHobby</title>
-  <style>
-
-  </style>
-</head>
-<body>
-<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -18,29 +7,28 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2563eb">
     <title>iHobby - คลังกันพลาของฉัน</title>
-	<style>
-/* ===== หน้าจอเริ่มต้น แก้ไขแล้ว ===== */
-#splashScreen {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
-}
-#splashScreen img {
-    max-width: 85%;
-    max-height: 85%;
-    object-fit: contain;
-}
-#mainContent {
-    display: none; /* ซ่อนแน่นอนจนกว่าจะครบกำหนด */
-}
-	</style>
     <style>
+        /* ===== หน้าจอเริ่มต้น ===== */
+        #splashScreen {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+        }
+        #splashScreen img {
+            max-width: 85%;
+            max-height: 85%;
+            object-fit: contain;
+        }
+        #mainContent {
+            display: none;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -239,6 +227,17 @@
         .btn-import { background: #3b82f6; }
         .btn-import:hover { background: #2563eb; }
 
+        .total-box {
+            background:white; 
+            padding:12px; 
+            border-radius:12px; 
+            margin-bottom:16px; 
+            text-align:center; 
+            font-weight:600; 
+            color:#2c3e50;
+            font-size: 16px;
+        }
+
         .table-container {
             background: white;
             padding: 12px;
@@ -278,6 +277,12 @@
             object-fit: cover;
             border-radius: 8px;
             flex-shrink: 0;
+            background:#eee;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#999;
+            font-size:12px;
         }
 
         .card-title {
@@ -341,146 +346,166 @@
             font-size: 14px;
         }
 
-        /* ซ่อนตารางปกติ แสดงเฉพาะการ์ดบนมือถือ */
         table { display: none; }
     </style>
 </head>
 <body>
-	<!-- หน้าจอเริ่มต้น -->
-	<div id="splashScreen">
-		<img src="images/Splash.png" alt="iHobby">
-	</div>
-
-	<!-- ครอบเนื้อหาทั้งหมดไว้ในนี้ -->
-	<div id="mainContent">
-    <div class="header">
-        <img src="images/ihobby-logo.png" alt="iHobby Logo" class="logo" id="appLogo">
-        <h1>คลังกันพลาของฉัน<br>(เรียงตามวันที่ซื้อ ล่าสุดก่อน)</h1>
+    <!-- หน้าจอเริ่มต้น -->
+    <div id="splashScreen">
+        <img src="images/Splash.png" alt="iHobby">
     </div>
 
-    <div class="form-container">
-        <h3 id="formTitle">เพิ่มรายการกันพลาใหม่ <span id="editNotice" class="edit-mode"></span></h3>
-        <br>
-        <form id="gunplaForm">
-            <input type="hidden" id="editId">
+    <!-- ครอบเนื้อหาทั้งหมด -->
+    <div id="mainContent">
+        <div class="header">
+            <img src="images/ihobby-logo.png" alt="iHobby Logo" class="logo" id="appLogo">
+            <h1>คลังกันพลาของฉัน<br>(เรียงตามวันที่ซื้อ ล่าสุดก่อน)</h1>
+        </div>
 
-            <div class="form-group">
-                <label>ชื่อ/รุ่นกันพลา *</label>
-                <input type="text" id="name" required placeholder="เช่น RX-78-2 Gundam">
-            </div>
+        <div class="form-container">
+            <h3 id="formTitle">เพิ่มรายการกันพลาใหม่ <span id="editNotice" class="edit-mode"></span></h3>
+            <br>
+            <form id="gunplaForm">
+                <input type="hidden" id="editId">
 
-            <div class="form-group">
-                <label>เกรด</label>
-                <select id="grade">
-                    <option value="">-- เลือกเกรด --</option>
-                    <option value="FG (First Grade)">FG (First Grade)</option>
-                    <option value="EG (Entry Grade)">EG (Entry Grade)</option>
-                    <option value="HG (High Grade)">HG (High Grade)</option>
-                    <option value="RG (Real Grade)">RG (Real Grade)</option>
-                    <option value="RE/100 (REBORN-One Hundred)">RE/100</option>
-                    <option value="MG (Master Grade)">MG (Master Grade)</option>
-                    <option value="MGEX (Master Grade Extreme)">MGEX</option>
-                    <option value="PG (Perfect Grade)">PG (Perfect Grade)</option>
-                    <option value="PG Unleashed (PGU)">PG Unleashed (PGU)</option>
-                    <option value="Mega Size Model">Mega Size Model</option>
-                    <option value="SDEX (SD Gundam EX-Standard)">SDEX</option>
-                    <option value="SDCS (SD Gundam Cross Silhouette)">SDCS</option>
-                    <option value="SDW HEROES / SD Sangoku Soketsuden">SDW/SSS</option>
-                    <option value="MGSD (Master Grade SD)">MGSD</option>
-                    <option value="อื่นๆ">อื่นๆ</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>สเกล</label>
-                <select id="scale">
-                    <option value="">-- เลือกสเกล --</option>
-                    <option value="1/35">1/35</option>
-                    <option value="1/48">1/48</option>
-                    <option value="1/60">1/60</option>
-                    <option value="1/100">1/100</option>
-                    <option value="1/144">1/144</option>
-                    <option value="อื่นๆ">อื่นๆ</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>วันที่ซื้อ</label>
-                <input type="date" id="buyDate">
-            </div>
-
-            <div class="form-group">
-                <label>วันที่ได้รับ</label>
-                <input type="date" id="receiveDate">
-            </div>
-
-            <div class="form-group">
-                <label>ร้านค้า/แหล่งที่มา</label>
-                <input type="text" id="shop" placeholder="เช่น ร้านบันได, Shopee">
-            </div>
-
-            <div class="form-group">
-                <label>ราคา (บาท)</label>
-                <input type="number" id="price" min="0" step="0.01" placeholder="0.00">
-            </div>
-
-            <div class="form-group">
-                <label>รูปภาพ</label>
-                <input type="file" id="image" accept="image/*" capture="environment">
-                <img id="imagePreview" class="image-preview" alt="ตัวอย่างรูป">
-            </div>
-
-            <div class="note-header">
-                <img src="images/pinned_icon.png" alt="ปักหมุด" class="pinned-icon">
-                <span>หมายเหตุ</span>
-            </div>
-
-            <div class="form-group">
-                <label>ประเภทสินค้า</label>
-                <div class="condition-options">
-                    <label class="option-item">
-                        <input type="radio" name="productType" id="typeNew" value="มือ 1">
-                        มือ 1
-                    </label>
-                    <label class="option-item">
-                        <input type="radio" name="productType" id="typeUsed" value="มือ 2">
-                        มือ 2
-                    </label>
+                <div class="form-group">
+                    <label>ชื่อ/รุ่นกันพลา *</label>
+                    <input type="text" id="name" required placeholder="เช่น RX-78-2 Gundam">
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>สภาพกล่อง</label>
-                <textarea id="boxCondition" rows="2" placeholder="เช่น กล่องคม/ไม่คม"></textarea>
-            </div>  
+                <!-- ✅ ช่องเลือกแบรนด์ -->
+                <div class="form-group">
+                    <label>แบรนด์</label>
+                    <div class="condition-options">
+                        <label class="option-item">
+                            <input type="radio" name="brand" id="brandBandai" value="BANDAI">
+                            BANDAI
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="brand" id="brandMojin" value="โมจีน">
+                            โมจีน
+                        </label>
+                    </div>
+                </div>
 
-			<div class="form-group">
-                <label>สถานะประกอบ</label>
-                <textarea id="buildStatus" rows="2" placeholder="เช่น ยังไม่ประกอบ/ประกอบแล้ว"></textarea>
-            </div>
+                <div class="form-group">
+                    <label>เกรด</label>
+                    <select id="grade">
+                        <option value="">-- เลือกเกรด --</option>
+                        <option value="FG (First Grade)">FG (First Grade)</option>
+                        <option value="EG (Entry Grade)">EG (Entry Grade)</option>
+                        <option value="HG (High Grade)">HG (High Grade)</option>
+                        <option value="RG (Real Grade)">RG (Real Grade)</option>
+                        <option value="RE/100 (REBORN-One Hundred)">RE/100</option>
+                        <option value="MG (Master Grade)">MG (Master Grade)</option>
+                        <option value="MGEX (Master Grade Extreme)">MGEX</option>
+                        <option value="PG (Perfect Grade)">PG (Perfect Grade)</option>
+                        <option value="PG Unleashed (PGU)">PG Unleashed (PGU)</option>
+                        <option value="Mega Size Model">Mega Size Model</option>
+                        <option value="SDEX (SD Gundam EX-Standard)">SDEX</option>
+                        <option value="SDCS (SD Gundam Cross Silhouette)">SDCS</option>
+                        <option value="SDW HEROES / SD Sangoku Soketsuden">SDW/SSS</option>
+                        <option value="MGSD (Master Grade SD)">MGSD</option>
+                        <option value="อื่นๆ">อื่นๆ</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label>บันทึกเพิ่มเติม</label>
-                <textarea id="comment" rows="2" placeholder="เช่น ต่อง่าย/งานกาว"></textarea>
-            </div>
+                <div class="form-group">
+                    <label>สเกล</label>
+                    <select id="scale">
+                        <option value="">-- เลือกสเกล --</option>
+                        <option value="1/35">1/35</option>
+                        <option value="1/48">1/48</option>
+                        <option value="1/60">1/60</option>
+                        <option value="1/100">1/100</option>
+                        <option value="1/144">1/144</option>
+                        <option value="อื่นๆ">อื่นๆ</option>
+                    </select>
+                </div>
 
-            <div class="btn-row">
-                <button type="submit" class="btn btn-primary" id="submitBtn">บันทึกรายการ</button>
-                <button type="button" class="btn btn-cancel" id="cancelBtn">ยกเลิก</button>
-            </div>
-        </form>
-    </div>
+                <div class="form-group">
+                    <label>วันที่ซื้อ</label>
+                    <input type="date" id="buyDate">
+                </div>
 
-    <div class="export-section">
-        <div class="export-title">📂 สำรอง / กู้คืนข้อมูล</div>
-        <button class="export-btn btn-json" onclick="exportJSON()">💾 ส่งออก JSON</button>
-        <button class="export-btn btn-import" onclick="document.getElementById('importFile').click()">📥 นำเข้าข้อมูล</button>
-        <input type="file" id="importFile" accept=".json" style="display: none" onchange="importData(event)">
-    </div>
+                <div class="form-group">
+                    <label>วันที่ได้รับ</label>
+                    <input type="date" id="receiveDate">
+                </div>
 
-    <div class="table-container">
-        <h3>รายการกันพลาทั้งหมด</h3>
-        <div id="cardContainer" class="card-view"></div>
+                <div class="form-group">
+                    <label>ร้านค้า/แหล่งที่มา</label>
+                    <input type="text" id="shop" placeholder="เช่น ร้านบันได, Shopee">
+                </div>
+
+                <div class="form-group">
+                    <label>ราคา (บาท)</label>
+                    <input type="number" id="price" min="0" step="0.01" placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label>รูปภาพ</label>
+                    <input type="file" id="image" accept="image/*" capture="environment">
+                    <img id="imagePreview" class="image-preview" alt="ตัวอย่างรูป">
+                </div>
+
+                <div class="note-header">
+                    <img src="images/pinned_icon.png" alt="ปักหมุด" class="pinned-icon">
+                    <span>หมายเหตุ</span>
+                </div>
+
+                <div class="form-group">
+                    <label>ประเภทสินค้า</label>
+                    <div class="condition-options">
+                        <label class="option-item">
+                            <input type="radio" name="productType" id="typeNew" value="มือ 1">
+                            มือ 1
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="productType" id="typeUsed" value="มือ 2">
+                            มือ 2
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>สภาพกล่อง</label>
+                    <textarea id="boxCondition" rows="2" placeholder="เช่น กล่องคม/ไม่คม"></textarea>
+                </div>  
+
+                <div class="form-group">
+                    <label>สถานะประกอบ</label>
+                    <textarea id="buildStatus" rows="2" placeholder="เช่น ยังไม่ประกอบ/ประกอบแล้ว"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>บันทึกเพิ่มเติม</label>
+                    <textarea id="comment" rows="2" placeholder="เช่น ต่อง่าย/งานกาว"></textarea>
+                </div>
+
+                <div class="btn-row">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">บันทึกรายการ</button>
+                    <button type="button" class="btn btn-cancel" id="cancelBtn">ยกเลิก</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="export-section">
+            <div class="export-title">📂 สำรอง / กู้คืนข้อมูล</div>
+            <button class="export-btn btn-json" onclick="exportJSON()">💾 ส่งออก JSON</button>
+            <button class="export-btn btn-import" onclick="document.getElementById('importFile').click()">📥 นำเข้าข้อมูล</button>
+            <input type="file" id="importFile" accept=".json" style="display: none" onchange="importData(event)">
+        </div>
+
+        <!-- ✅ ส่วนยอดรวมมูลค่า -->
+        <div class="total-box">
+            💰 มูลค่ารวมทั้งหมด: <span id="totalPrice">0</span> บาท
+        </div>
+
+        <div class="table-container">
+            <h3>รายการกันพลาทั้งหมด</h3>
+            <div id="cardContainer" class="card-view"></div>
+        </div>
     </div>
 
     <script>
@@ -508,6 +533,11 @@
             });
         }
 
+        function updateTotal() {
+            const total = gunplaList.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
+            document.getElementById('totalPrice').textContent = total.toLocaleString();
+        }
+
         imageInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -529,6 +559,7 @@
             const newItem = {
                 id: editId ? Number(editId) : Date.now(),
                 name: document.getElementById('name').value,
+                brand: document.querySelector('input[name="brand"]:checked')?.value || '',
                 grade: document.getElementById('grade').value,
                 scale: document.getElementById('scale').value,
                 buyDate: document.getElementById('buyDate').value,
@@ -569,6 +600,15 @@
             cancelBtn.classList.add('show');
 
             document.getElementById('name').value = item.name || '';
+            
+            if (item.brand === 'BANDAI') {
+                document.getElementById('brandBandai').checked = true;
+            } else if (item.brand === 'โมจีน') {
+                document.getElementById('brandMojin').checked = true;
+            } else {
+                document.querySelectorAll('input[name="brand"]').forEach(r => r.checked = false);
+            }
+
             document.getElementById('grade').value = item.grade || '';
             document.getElementById('scale').value = item.scale || '';
             document.getElementById('buyDate').value = item.buyDate || '';
@@ -613,17 +653,23 @@
 
             if (gunplaList.length === 0) {
                 cardContainer.innerHTML = `<div class="empty">ยังไม่มีรายการกันพลา เริ่มเพิ่มรายการแรกได้เลยค่ะ!</div>`;
+                updateTotal();
                 return;
             }
 
             gunplaList.forEach(item => {
+                // ✅ เพิ่มอิโมจิตามแบรนด์
+                let brandIcon = '';
+                if (item.brand === 'BANDAI') brandIcon = '💎 ';
+                else if (item.brand === 'โมจีน') brandIcon = '✅ ';
+
                 const card = document.createElement('div');
                 card.className = 'gunpla-card';
                 card.innerHTML = `
                     <div class="card-header">
-                        ${item.image ? `<img src="${item.image}" class="card-img" alt="${item.name}">` : `<div class="card-img" style="background:#eee;display:flex;align-items:center;justify-content:center;color:#999;">ไม่มีรูป</div>`}
+                        ${item.image ? `<img src="${item.image}" class="card-img" alt="${item.name}">` : `<div class="card-img">ไม่มีรูป</div>`}
                         <div>
-                            <div class="card-title">${item.name}</div>
+                            <div class="card-title">${brandIcon}${item.name}</div>
                             <div class="card-grade">${item.grade || '-'}</div>
                             <div style="font-size:12px;color:#888;">${item.scale || '-'}</div>
                         </div>
@@ -631,8 +677,9 @@
                     <div class="card-details">
                         <span><strong>ซื้อ:</strong> ${formatDate(item.buyDate)}</span>
                         <span><strong>รับ:</strong> ${formatDate(item.receiveDate)}</span>
+                        <span><strong>แบรนด์:</strong> ${item.brand || '-'}</span>
                         <span><strong>ประเภท:</strong> ${item.productType || '-'}</span>
-                        <span><strong>ราคา:</strong> ${item.price ? item.price+' บาท' : '-'}</span>
+                        <span><strong>ราคา:</strong> ${item.price ? Number(item.price).toLocaleString()+' บาท' : '-'}</span>
                         <span><strong>กล่อง:</strong> ${item.boxCondition || '-'}</span>
                         <span><strong>ประกอบ:</strong> ${item.buildStatus || '-'}</span>
                     </div>
@@ -644,6 +691,7 @@
                 `;
                 cardContainer.appendChild(card);
             });
+            updateTotal();
         }
 
         function deleteItem(id) {
@@ -702,25 +750,17 @@
             });
         }
 
+        // หน้าจอเริ่มต้น
+        document.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('splashScreen');
+            const main = document.getElementById('mainContent');
+            setTimeout(() => {
+                splash.style.display = 'none';
+                main.style.display = 'block';
+            }, 1500);
+        });
+
         renderCards();
-// หน้าจอเริ่มต้น แก้ไขปัญหาค้าง
-document.addEventListener('DOMContentLoaded', () => {
-    const splash = document.getElementById('splashScreen');
-    const main = document.getElementById('mainContent');
-
-    // แสดง 1.5 วินาที แล้วซ่อนทันที ไม่รอเฟดซ้อนกัน
-    setTimeout(() => {
-        splash.style.display = 'none';
-        main.style.display = 'block';
-    }, 1500); // ปรับเป็น 1000 = 1 วินาที ถ้าอยากให้เร็วขึ้น
-});
     </script>
-</div> <!-- ปิด #mainContent -->
-</body>
-</html>
-
-  <script>
-
-  </script>
 </body>
 </html>
