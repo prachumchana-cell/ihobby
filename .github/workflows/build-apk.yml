@@ -2,34 +2,43 @@ name: Build PWA APK
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch: # ให้กดสั่งทำด้วยตัวเองได้
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: เช็คเอาโค้ด
+      - name: ดึงโค้ดมาใช้
         uses: actions/checkout@v4
 
-      - name: ติดตั้ง Node.js
+      - name: ติดตั้ง Node.js เวอร์ชันแนะนำ
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: 'npm'
 
-      - name: ติดตั้ง PWABuilder
-        run: npm install -g @pwabuilder/cli
+      - name: อัปเดต npm และติดตั้ง PWABuilder CLI
+        run: |
+          npm install -g npm@latest
+          npm install -g @pwabuilder/cli@latest
+
+      - name: ตรวจสอบว่าติดตั้งสำเร็จ
+        run: pwabuilder --version
 
       - name: สร้างไฟล์ APK
         run: |
+          mkdir -p ./output
           pwabuilder package \
             --platform android \
             --out ./output \
             --manifest ./manifest.json \
             --android-package-name "com.repo.iHobby" \
             --android-app-name "iHobby"
+        continue-on-error: false
 
-      - name: แนบไฟล์ APK ไว้ดาวน์โหลด
+      - name: แนบไฟล์ APK
         uses: actions/upload-artifact@v4
         with:
           name: APK-ผลลัพธ์
           path: ./output/*.apk
+          if: success()
