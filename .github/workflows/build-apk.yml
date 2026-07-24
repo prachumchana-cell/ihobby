@@ -8,32 +8,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: ดึงไฟล์จากที่เก็บ
+      - name: ดึงไฟล์
         uses: actions/checkout@v4
 
-      - name: ติดตั้ง Node.js เวอร์ชันล่าสุด
+      - name: ติดตั้ง Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: ''  # ปิดการแคชเพื่อไม่ให้มองหาไฟล์ล็อก
+          cache: ''
 
-      - name: ติดตั้ง PWABuilder CLI เวอร์ชันล่าสุด
-        run: |
-          npm install -g npm@latest
-          npm install -g @pwabuilder/cli@latest
-
-      - name: ยืนยันการติดตั้ง
-        run: pwabuilder --version
-
-      - name: สร้างโฟลเดอร์ผลลัพธ์และสร้าง APK
+      - name: สร้างโฟลเดอร์ + รัน PWABuilder ผ่าน npx (รับประกันเจอคำสั่ง)
         run: |
           mkdir -p ./output
-          pwabuilder package \
+          npx @pwabuilder/cli@latest package \
             --platform android \
             --out ./output \
             --manifest ./manifest.json \
-            --android-package-name "com.yourname.appname" \
-            --android-app-name "ชื่อแอปของคุณ"
+            --android-package-name "com.repo.iHobby" \
+            --android-app-name "iHobby"
 
       - name: แนบไฟล์ APK
         uses: actions/upload-artifact@v4
