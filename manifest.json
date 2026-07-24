@@ -2,7 +2,7 @@
   "name": "iHobby - คลังกันพลาของฉัน",
   "short_name": "iHobby",
   "description": "แอปจัดการคลังกันพลาส่วนตัว",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#f0f4f8",
   "theme_color": "#2563eb",
