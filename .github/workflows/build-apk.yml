@@ -8,8 +8,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: ดึงไฟล์
+      - name: ดึงไฟล์ทั้งหมด
         uses: actions/checkout@v4
+
+      - name: แสดงรายการไฟล์ (เช็ค manifest.json มีจริงไหม)
+        run: ls -la
 
       - name: ติดตั้ง Node.js 22
         uses: actions/setup-node@v4
@@ -17,17 +20,17 @@ jobs:
           node-version: 22
           cache: ''
 
-      - name: สร้างโฟลเดอร์ + รัน PWABuilder ผ่าน npx (รับประกันเจอคำสั่ง)
+      - name: สร้าง APK พร้อมระบุเส้นทางชัดเจน
         run: |
           mkdir -p ./output
           npx @pwabuilder/cli@latest package \
             --platform android \
             --out ./output \
-            --manifest ./manifest.json \
+            --manifest "$(pwd)/manifest.json" \
             --android-package-name "com.prachumchana.ihobby" \
-            --android-app-name "iHobby"
+            --android-app-name "ihobby"
 
-      - name: แนบไฟล์ APK
+      - name: แนบไฟล์ผลลัพธ์
         uses: actions/upload-artifact@v4
         with:
           name: APK-ผลลัพธ์
