@@ -24,7 +24,7 @@ jobs:
             --platform android \
             --out ./output \
             --manifest ./manifest.json \
-            --android-package-name "com.repo.iHobby" \
+            --android-package-name "com.prachumchana.ihobby" \
             --android-app-name "iHobby"
 
       - name: แนบไฟล์ APK
